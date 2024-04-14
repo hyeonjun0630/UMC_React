@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  padding: 50px;
+}
+
+.page-container {
+  text-align: center;
+  background-color: skyblue;
+  height: 100vh;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 50%;
+}
+
+input {
+  margin: 50px 0;
+  width: 50%;
+  height: 50px;
+  font-size: 20px;
+  font-style: italic;
+  padding-left: 10px;
+}
+
+.stylebutton {
+  padding: 10px;
+}
