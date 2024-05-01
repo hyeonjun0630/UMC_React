@@ -82,7 +82,7 @@ const MovieOverview = styled.div`
     padding: 20px;
     z-index: 999;
     word-wrap: break-word;
-    
+
     /* .movie-overview > p 와 동일한 문장 */
     & > p {
         font-size: small;
