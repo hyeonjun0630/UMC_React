@@ -85,6 +85,7 @@ const MovieOverview = styled.div`
     
     /* .movie-overview > p 와 동일한 문장 */
     & > p {
+        font-size: small;
         text-overflow: ellipsis;
         overflow: hidden;
         display: -webkit-box;
