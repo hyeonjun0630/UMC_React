@@ -1,18 +1,25 @@
 import styled from "styled-components";
+import {Outlet} from "react-router-dom";
+import {Footer, Header} from "./pages/Fixed.jsx";
+import "./App.css"
 
 function App() {
   return (
-    <>
-      <StyledDiv>안녕자두야</StyledDiv>
-    </>
+    <AppRoot>
+      <Header/>
+      <Outlet/>
+      <Footer/>
+    </AppRoot>
   );
 }
 
-const StyledDiv = styled.div`
-  background-color: black;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
+const AppRoot = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    
+    flex: 1;
+    min-height: 0;
+`
 
 export default App;
