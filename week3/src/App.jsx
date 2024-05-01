@@ -3,10 +3,7 @@ import styled from "styled-components";
 function App() {
   return (
     <>
-      <StyledDiv>안녕자두야</StyledDiv>;<StyledDiv>안녕자두야</StyledDiv>;
-      <StyledDiv>안녕자두야</StyledDiv>;<StyledDiv>안녕자두야</StyledDiv>;
-      <StyledDiv>안녕자두야</StyledDiv>;<StyledDiv>안녕자두야</StyledDiv>;
-      <StyledDiv>안녕자두야</StyledDiv>;<StyledDiv>안녕자두야</StyledDiv>;
+      <StyledDiv>안녕자두야</StyledDiv>
     </>
   );
 }

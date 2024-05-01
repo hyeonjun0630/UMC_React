@@ -32,18 +32,23 @@
   opacity: 0.3;
 }
 
-/* 영화 설명칸 */
+/* 영화 설명 전체 박스 */
 .movie-overview {
   position: absolute;
-
   display: none;
   color: white;
-
   padding: 20px;
-
   z-index: 999;
-
   word-wrap: break-word;
+}
+
+/* 영화 설명 내용. 중요!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  */
+.movie-overview > p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 10;
 }
 
 .content-container:hover .movie-overview {
