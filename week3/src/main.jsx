@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Intro} from "./pages/Intro.jsx";
-import {NowPlayingMovies, PopularMovies, TopRatedMovies, UpcomingMovies} from "./pages/Movies.jsx";
+import {NotFoundPage, NowPlayingMovies, PopularMovies, TopRatedMovies, UpcomingMovies} from "./pages/Movies.jsx";
 
 
 const router = createBrowserRouter([
@@ -12,7 +12,11 @@ const router = createBrowserRouter([
     element: <App/>,
     children: [
       {
-        path: "/",
+        path:"/*",
+        element: <NotFoundPage/>
+      },
+      {
+        path: "/intro",
         element: <Intro/>
       },
       {

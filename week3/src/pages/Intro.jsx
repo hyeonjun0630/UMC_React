@@ -1,3 +1,4 @@
+// 인트로 사이트
 import styled from "styled-components";
 
 export const Intro = () => {
