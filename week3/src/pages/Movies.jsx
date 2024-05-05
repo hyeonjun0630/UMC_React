@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 const Movies = props => {
   const { type } = props
@@ -51,24 +52,27 @@ const Movie = props => {
 
   return (
     <MovieRoot>
-      <div>
-        <MovieOverview>
-          <h2>{movie.title}</h2>
-          <p>{movie.overview}</p>
-        </MovieOverview>
+      {/* 이 코드 한줄로 포스터 클릭 시 상세페이지로 넘어가는 것 구현.*/}
+      <Link to={`/movie/${movie.id}`}>
+        <div>
+          <MovieOverview>
+            <h2>{movie.title}</h2>
+            <p>{movie.overview}</p>
+          </MovieOverview>
 
-        <MoviePosterContainer>
-          <MoviePoster
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-          />
-        </MoviePosterContainer>
+          <MoviePosterContainer>
+            <MoviePoster
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </MoviePosterContainer>
 
-        <MovieData>
-          <div>{movie.title}</div>
-          <div>{movie.vote_average}</div>
-        </MovieData>
-      </div>
+          <MovieData>
+            <div>{movie.title}</div>
+            <div>{movie.vote_average}</div>
+          </MovieData>
+        </div>
+      </Link>
     </MovieRoot>
   )
 }

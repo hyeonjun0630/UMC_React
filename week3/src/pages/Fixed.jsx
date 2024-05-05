@@ -7,7 +7,7 @@ export const Header = () => {
 
   return (
     <HeaderRoot>
-      <HeaderTitle><HeaderAnchor to={"/intro"} selected={location.pathname === "/intro"}>UMC Movie</HeaderAnchor></HeaderTitle>
+      <HeaderTitle><HeaderAnchor to={"/"} selected={location.pathname === "/"}>UMC Movie</HeaderAnchor></HeaderTitle>
 
       <Spacer/>
 
@@ -57,8 +57,6 @@ const Spacer = styled.div`
   flex: 1;
 `
 
-
-
 const HeaderAnchor = styled(Link)`
     border: none;
     background: none;
@@ -73,8 +71,6 @@ const HeaderAnchor = styled(Link)`
         transform: scale(1.05);
     }
 `
-
-
 
 export const Footer = () => {
   return (
