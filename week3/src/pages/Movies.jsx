@@ -135,7 +135,7 @@ export function NotFoundPage() {
       <h1>Oops!</h1>
       <div> 못한 에러가 발생했습니다 ;( </div>
       <div id="bold">Not Found</div>
-      <a href={"http://localhost:5173/intro"}>메인으로 이동하기</a>
+      <a href={"http://localhost:5173/"}>메인으로 이동하기</a>
     </NotFound>
   );
 }
