@@ -17,6 +17,8 @@ export const Header = () => {
       <HeaderAnchor to={"/toprated"} selected={location.pathname === "/toprated"}>Top Rated</HeaderAnchor>
       <HeaderAnchor to={"/upcoming"} selected={location.pathname === "/upcoming"}>Upcoming</HeaderAnchor>
     </HeaderRoot>
+
+  // <Route path={"/movie/:title" element={<Movies type={"popular"}>}
   )
 }
 
