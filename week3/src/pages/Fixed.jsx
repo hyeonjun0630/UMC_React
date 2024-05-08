@@ -17,8 +17,6 @@ export const Header = () => {
       <HeaderAnchor to={"/toprated"} selected={location.pathname === "/toprated"}>Top Rated</HeaderAnchor>
       <HeaderAnchor to={"/upcoming"} selected={location.pathname === "/upcoming"}>Upcoming</HeaderAnchor>
     </HeaderRoot>
-
-  // <Route path={"/movie/:title" element={<Movies type={"popular"}>}
   )
 }
 
@@ -36,15 +34,6 @@ function LoginButton() {
   );
 }
 
-const Button = styled.button`
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: none;
-    color: white;
-`
 const HeaderRoot = styled.div`
     display: flex;
     align-items: center;
@@ -57,6 +46,16 @@ const HeaderTitle = styled.p``
 
 const Spacer = styled.div`
   flex: 1;
+`
+
+const Button = styled.button`
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
 `
 
 const HeaderAnchor = styled(Link)`
