@@ -59,7 +59,7 @@ const LoginPage = () => {
 
         <StyleInput
           type="password"
-          placeholder="비밀번호를 입력해주세요"
+          placeholder="비밀번호를 입력해주세요!"
           value={inputValue.password}
           onChange={(event) =>
             setInputValue({ ...inputValue, password: event.target.value })

@@ -367,7 +367,7 @@ const SignUpPage = () => {
         제출하기
       </SubmitButton>
       <AlreadyHasId>
-        <div>이미 아이디가 있으신가요?</div>
+        <div>이미 아이디가 있으십니까?</div>
         <StyleLink to={"/login"}>로그인 페이지로 이동하기</StyleLink>
       </AlreadyHasId>
     </Container>
