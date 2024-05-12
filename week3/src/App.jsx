@@ -3,15 +3,15 @@ import {Outlet} from "react-router-dom";
 import {Footer, Header} from "./pages/Fixed.jsx";
 import "./App.css"
 
-function App() {
-  return (
-    <AppRoot>
-      <Header/>
-      <Outlet/>
-      <Footer/>
-    </AppRoot>
-  );
-}
+  function App() {
+    return (
+      <AppRoot>
+        <Header/>
+        <Outlet/>
+        <Footer/>
+      </AppRoot>
+    );
+  }
 
 const AppRoot = styled.div`
     display: flex;

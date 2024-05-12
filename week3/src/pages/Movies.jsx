@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+
 
 const Movies = props => {
   const { type } = props
@@ -48,13 +49,26 @@ const MoviesContainer = styled.div`
 
 // 이 컴포넌트의 내용의 위의 .map 함수의 내용으로 치환됩니다.
 const Movie = props => {
-  const { movie } = props
+  const {movie} = props
 
-  return (
-    <MovieRoot>
-      {/* 이 코드 한줄로 포스터 클릭 시 상세페이지로 넘어가는 것 구현.*/}
-      <Link to={`/movie/${movie.id}`}>
-        <div>
+  const navigate = useNavigate()
+
+  const handleClick = (movie) => {
+    navigate(`/movie/${movie.title}`, {
+      state: {
+        poster_path: movie.poster_path,
+        title: movie.title,
+        overview: movie.overview,
+        vote_average: movie.vote_average,
+        release_date: movie.release_date,
+        backdrop_path: movie.backdrop_path,
+      }
+    })};
+
+    return (
+      <MovieRoot>
+        {/* 이 코드 한줄로 포스터 클릭 시 상세페이지로 넘어가는 것 구현.*/}
+        <div onClick={() => handleClick(movie)}>
           <MovieOverview>
             <h2>{movie.title}</h2>
             <p>{movie.overview}</p>
@@ -72,54 +86,57 @@ const Movie = props => {
             <div>{movie.vote_average}</div>
           </MovieData>
         </div>
-      </Link>
-    </MovieRoot>
-  )
+
+      </MovieRoot>
+    )
+
 }
 
 const MoviePosterContainer = styled.div``
 
 const MovieOverview = styled.div`
-    position: absolute;
-    display: none;
-    color: white;
-    padding: 20px;
-    z-index: 999;
-    word-wrap: break-word;
+      position: absolute;
+      display: none;
+      color: white;
+      padding: 20px;
+      z-index: 999;
+      word-wrap: break-word;
 
-    /* .movie-overview > p 와 동일한 문장 */
-    & > p {
-        font-size: small;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 10;
-    }
-`
+      /* .movie-overview > p 와 동일한 문장 */
+
+      & > p {
+          font-size: small;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 10;
+      }
+  `
 
 const MovieRoot = styled.div`
-    background-color: black;
-    padding: 10px;
-    position: relative;
-    
-    /* .content-container:hover .movie-poster-container 와 같은 문장 */
-    &:hover ${MoviePosterContainer} {
-        opacity: 0.3;
-    }
-    
-    &:hover ${MovieOverview} {
-        display: block;
-    }
-`
+      background-color: black;
+      padding: 10px;
+      position: relative;
+
+      /* .content-container:hover .movie-poster-container 와 같은 문장 */
+
+      &:hover ${MoviePosterContainer} {
+          opacity: 0.3;
+      }
+
+      &:hover ${MovieOverview} {
+          display: block;
+      }
+  `
 
 const MovieData = styled.div`
-    color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-bottom: 50px;
-`
+      color: white;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-bottom: 50px;
+  `
 
 const MoviePoster = styled.img`
     width: 100%;
@@ -128,32 +145,7 @@ const MoviePoster = styled.img`
     z-index: 1;
 `
 
-
-export function NotFoundPage() {
-  return (
-    <NotFound>
-      <h1>Oops!</h1>
-      <div> 못한 에러가 발생했습니다 ;( </div>
-      <div id="bold">Not Found</div>
-      <a href={"http://localhost:5173/"}>메인으로 이동하기</a>
-    </NotFound>
-  );
-}
-
-const NotFound = styled.div`
-    background-color: #363636;
-    height: 100%;
-    color: white;
-    text-align: center;
-    
-    & > #bold {
-        font-weight: bold;
-        font-style: italic;
-        padding: 10px 0;
-    }
-`
-
-export const PopularMovies = () => <Movies type={"popular"}/>
-export const UpcomingMovies = () => <Movies type={"upcoming"}/>
-export const NowPlayingMovies = () => <Movies type={"now_playing"}/>
-export const TopRatedMovies = () => <Movies type={"top_rated"}/>
+  export const PopularMovies = () => <Movies type={"popular"}/>
+  export const UpcomingMovies = () => <Movies type={"upcoming"}/>
+  export const NowPlayingMovies = () => <Movies type={"now_playing"}/>
+  export const TopRatedMovies = () => <Movies type={"top_rated"}/>

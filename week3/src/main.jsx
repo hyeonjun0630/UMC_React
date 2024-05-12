@@ -3,8 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Intro} from "./pages/Intro.jsx";
-import {NotFoundPage, NowPlayingMovies, PopularMovies, TopRatedMovies, UpcomingMovies} from "./pages/Movies.jsx";
-
+import  {NowPlayingMovies, PopularMovies, TopRatedMovies, UpcomingMovies} from "./pages/Movies.jsx";
+import DetailPage from "./pages/DetailPage.jsx";
+import {NotFoundPage} from "./pages/NotFound.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/upcoming",
         element: <UpcomingMovies/>
+      },
+      {
+        path: "/movie/:title",
+        element: <DetailPage />
       }
     ]
   }
