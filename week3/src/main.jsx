@@ -3,9 +3,11 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {Intro} from "./pages/Intro.jsx";
-import  {NowPlayingMovies, PopularMovies, TopRatedMovies, UpcomingMovies} from "./pages/Movies.jsx";
+import {NowPlayingMovies, PopularMovies, TopRatedMovies, UpcomingMovies} from "./pages/Movies.jsx";
 import DetailPage from "./pages/DetailPage.jsx";
 import {NotFoundPage} from "./pages/NotFound.jsx";
+import SignUpPage from "./pages/SignUpPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
       {
         path: "/movie/:title",
         element: <DetailPage />
+      },
+      {
+        path: "/signup",
+        element: <SignUpPage/>
+      },
+      {
+        path: "/login",
+        element: <LoginPage/>
       }
     ]
   }

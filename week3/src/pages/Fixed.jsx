@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {Link, useLocation} from "react-router-dom";
-import {useState} from "react";
 
 export const Header = () => {
   const location = useLocation()
@@ -11,27 +10,13 @@ export const Header = () => {
 
       <Spacer/>
 
-      <LoginButton>로그인</LoginButton>
+      <HeaderAnchor to={"/signUp"} selected={location.pathname === "/signUp"}>회원가입</HeaderAnchor>
       <HeaderAnchor to={"/popular"} selected={location.pathname === "/popular"}>Popular</HeaderAnchor>
       <HeaderAnchor to={"/nowplaying"} selected={location.pathname === "/nowplaying"}>Now Playing</HeaderAnchor>
       <HeaderAnchor to={"/toprated"} selected={location.pathname === "/toprated"}>Top Rated</HeaderAnchor>
       <HeaderAnchor to={"/upcoming"} selected={location.pathname === "/upcoming"}>Upcoming</HeaderAnchor>
     </HeaderRoot>
   )
-}
-
-function LoginButton() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleClick = () => {
-    setIsLoggedIn(prevState => !prevState);
-  };
-
-  return (
-      <Button onClick={handleClick}>
-        {isLoggedIn ? '로그아웃' : '로그인'}
-      </Button>
-  );
 }
 
 const HeaderRoot = styled.div`

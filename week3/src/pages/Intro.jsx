@@ -6,7 +6,7 @@ export const Intro = () => {
     <>
       <IntroContent>환영합니다</IntroContent>
       <Back>
-        <BackContent>Find your movies!</BackContent>
+        <BackContent>🎬 Find your movies!</BackContent>
         <TextBox></TextBox>
       </Back>
 
