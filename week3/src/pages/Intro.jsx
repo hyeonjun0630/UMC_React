@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import {useCallback, useEffect, useState} from "react";
 import {Movie} from "./Movies.jsx";
+import {TMDB} from "../utils/TheMovieDatabaseApi.js";
 
 export const Intro = () => {
   const [query, setQuery] = useState("")
@@ -12,17 +13,7 @@ export const Intro = () => {
     if (!query) return
 
     setSearching(true)
-    const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}`,
-      {
-        method: 'GET',
-        headers: {
-          "accept": "application/json",
-          "Authorization": `Bearer ${import.meta.env.VITE_API_JWT}`
-        }
-      }
-    )
-    const responseBody = await response.json()
+    const responseBody = await TMDB.get("/search/movie?query=${encodeURIComponent(query)}").then(it => it.json())
     setSearchResults(responseBody.results)
     setSearching(false)
   }, [query])

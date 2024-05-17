@@ -1,5 +1,7 @@
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import styled from "styled-components";
+import {useEffect, useState} from "react";
+import {TMDB} from "../utils/TheMovieDatabaseApi.js";
 
 const Background = styled.div`
   width: 100%;
@@ -33,15 +35,27 @@ const Information = styled.div`
 `;
 
 const DetailPage = () => {
-  // 현재 주소값을 받아오는 건데
+  // 현재 주소값을 받아오기
   // path state (navigate)
-  const location = useLocation();
-  const data = location.state;
+  // pathname에 id가 아니라 /movie/${id} 가 들어있습니다. 따라서 앞의 '/movie/' 를 지워야 진짜 ID가 됨.
+  const { state: data, pathname } = useLocation();
+  const id = pathname.replace("/movie/", "")
 
-  const calScore = (vote_average) => {
-    const stars = "⭐️".repeat(Math.floor(vote_average));
-    return stars;
-  };
+  // detail에 영화 관련 다양한 정보들이 들어있습니다.
+  // 오브젝트 정의는 아래 두 API 가 응답하는 것들의 합집합입니다.
+  // https://developer.themoviedb.org/reference/movie-details
+  // https://developer.themoviedb.org/reference/movie-credits
+  const [detail, setDetail] = useState(null)
+
+  useEffect(() => {
+    const async = async () => {
+      const _detail = await TMDB.get(`/movie/${id}`).then(it => it.json())
+      const _casting = await TMDB.get(`/movie/${id}/credits`).then(it => it.json())
+      console.log({ ..._detail, ..._casting })
+      setDetail({ ..._detail, ..._casting })
+    }
+    async().then()
+  }, [id]);
 
   return (
     <Background
@@ -54,7 +68,7 @@ const DetailPage = () => {
         />
         <Information>
           <h1>| {data.title}</h1>
-          <h3>평점 {calScore(data.vote_average)}</h3>
+          <h3>평점 {"⭐️".repeat(Math.floor(data.vote_average))}</h3>
           <h3>개봉일 {data.release_date}</h3>
           <h3>줄거리</h3>
           <div>

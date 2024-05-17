@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {TMDB} from "../utils/TheMovieDatabaseApi.js";
 
 
 const Movies = props => {
@@ -11,17 +12,7 @@ const Movies = props => {
   // Data fetcing
   useEffect(() => {
     const async = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${type}?language=ko-KR&page=1`,
-        {
-          method: 'GET',
-          headers: {
-            "accept": "application/json",
-            "Authorization": `Bearer ${import.meta.env.VITE_API_JWT}`
-          }
-        }
-      )
-      const responseBody = await response.json()
+      const responseBody = await TMDB.get(`/movie/${type}?language=ko-KR&page=1`).then(it => it.json())
       setMovies(responseBody.results)
     }
     async().then()
