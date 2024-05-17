@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import {useEffect, useState} from "react";
-import { useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 const Movies = props => {
@@ -48,13 +48,13 @@ const MoviesContainer = styled.div`
 `
 
 // 이 컴포넌트의 내용의 위의 .map 함수의 내용으로 치환됩니다.
-const Movie = props => {
+export const Movie = props => {
   const {movie} = props
 
   const navigate = useNavigate()
 
   const handleClick = (movie) => {
-    navigate(`/movie/${movie.title}`, {
+    navigate(`/movie/${movie.id}`, { // 영화 이름 같으면? 아이디로 구분해야한다.
       state: {
         poster_path: movie.poster_path,
         title: movie.title,
@@ -63,33 +63,33 @@ const Movie = props => {
         release_date: movie.release_date,
         backdrop_path: movie.backdrop_path,
       }
-    })};
+    })
+  };
 
-    return (
-      <MovieRoot>
-        {/* 이 코드 한줄로 포스터 클릭 시 상세페이지로 넘어가는 것 구현.*/}
-        <div onClick={() => handleClick(movie)}>
-          <MovieOverview>
-            <h2>{movie.title}</h2>
-            <p>{movie.overview}</p>
-          </MovieOverview>
+  return (
+    <MovieRoot>
+      {/* 이 코드 한줄로 포스터 클릭 시 상세페이지로 넘어가는 것 구현.*/}
+      <div onClick={() => handleClick(movie)}>
+        <MovieOverview>
+          <h2>{movie.title}</h2>
+          <p>{movie.overview}</p>
+        </MovieOverview>
 
-          <MoviePosterContainer>
-            <MoviePoster
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
-            />
-          </MoviePosterContainer>
+        <MoviePosterContainer>
+          <MoviePoster
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+          />
+        </MoviePosterContainer>
 
-          <MovieData>
-            <div>{movie.title}</div>
-            <div>{movie.vote_average}</div>
-          </MovieData>
-        </div>
+        <MovieData>
+          <div>{movie.title}</div>
+          <div>{movie.vote_average}</div>
+        </MovieData>
+      </div>
 
-      </MovieRoot>
-    )
-
+    </MovieRoot>
+  )
 }
 
 const MoviePosterContainer = styled.div``

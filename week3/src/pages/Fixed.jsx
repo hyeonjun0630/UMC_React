@@ -25,6 +25,7 @@ const HeaderRoot = styled.div`
     padding: 0 16px;
     color: white;
     background-color: #272727;
+    flex-shrink: 0;
 `
 
 const HeaderTitle = styled.p``
@@ -72,5 +73,6 @@ const FooterRoot  = styled.div`
     padding: 8px 16px;
     background-color: #272727;
     color: white;
+    flex-shrink: 0;
     //text-decoration: none;
 `
