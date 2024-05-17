@@ -153,7 +153,7 @@ const SignUpPage = () => {
           type="text"
           placeholder="이름을 입력해주세요"
           value={name}
-          onBlur={setNameTouched}
+          onBlur={() => setNameTouched(true)}
           onChange={(event) => setName(event.target.value)}
         />
         {nameInvalid && nameTouched && <ErrorMessage>{nameInvalid}</ErrorMessage>}
@@ -162,7 +162,7 @@ const SignUpPage = () => {
           type="email"
           placeholder="이메일을 입력해주세요"
           value={email}
-          onBlur={setEmailTouched}
+          onBlur={() => setEmailTouched(true)}
           onChange={(event) => setEmail(event.target.value)}
         />
         {emailInvalid && emailTouched && <ErrorMessage>{emailInvalid}</ErrorMessage>}
@@ -171,7 +171,7 @@ const SignUpPage = () => {
           type="text"
           placeholder="나이를 입력해주세요"
           value={age}
-          onBlur={setAgeTouched}
+          onBlur={() => setAgeTouched(true)}
           onChange={(event) => setAge(event.target.value)}
         />
         {ageInvalid && ageTouched && <ErrorMessage>{ageInvalid}</ErrorMessage>}
@@ -180,7 +180,7 @@ const SignUpPage = () => {
           type="password"
           placeholder="비밀번호를 입력해주세요"
           value={password}
-          onBlur={setPasswordTouched}
+          onBlur={() => setPasswordTouched(true)}
           onChange={(event) => setPassword(event.target.value)
           }
         />
@@ -190,7 +190,7 @@ const SignUpPage = () => {
           type="password"
           placeholder="비밀번호 확인"
           value={passwordCheck}
-          onBlur={setPasswordCheckTouched}
+          onBlur={() => setPasswordCheckTouched(true)}
           onChange={(event) => setPasswordCheck(event.target.value)}
         />
         {passwordCheckInvalid && passwordCheckTouched && <ErrorMessage>{passwordCheckInvalid}</ErrorMessage>}
