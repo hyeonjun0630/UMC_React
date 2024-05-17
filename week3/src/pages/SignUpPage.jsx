@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useMemo, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import styled from "styled-components";
 
@@ -57,231 +57,87 @@ const StyleLink = styled(Link)`
   color: #0074ff;
 `;
 
+const nameRegex = /^[ㄱ-ㅎ|가-힣]+$/;
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+const ageRegex = /^[0-9]+$/;
+const passwordRegex =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{4,12}$/;
+
 const SignUpPage = () => {
   const navigate = useNavigate();
 
-  const [inputValue, setInputValue] = useState({
-    name: "",
-    email: "",
-    age: "",
-    password: "",
-    passwordCheck: "",
-  });
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [age, setAge] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordCheck, setPasswordCheck] = useState("")
 
-  const [isError, setIsError] = useState({
-    nameError: "",
-    emailError: "",
-    ageError: "",
-    passwordError: "",
-    passwordCheckError: "",
-  });
+  const [nameTouched, setNameTouched] = useState(null)
+  const [emailTouched, setEmailTouched] = useState(null)
+  const [ageTouched, setAgeTouched] = useState(null)
+  const [passwordTouched, setPasswordTouched] = useState(null)
+  const [passwordCheckTouched, setPasswordCheckTouched] = useState(null)
 
-  const [isAvailable, setIsAvailable] = useState({
-    nameAvailable: false,
-    emailAvailable: false,
-    ageAvailable: false,
-    passwordAvailable: false,
-    passwordCheckAvailable: false,
-  });
+  const nameInvalid = useMemo(() => {
+    if (name === "")
+      return "이름을 입력해주세요!"
+    if (!nameRegex.test(name))
+      return "올바른 이름을 입력해주세요!"
 
-  const nameRegex = /^[ㄱ-ㅎ|가-힣]+$/;
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const ageRegex = /^[0-9]+$/;
-  const passwordRegex =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{4,12}$/;
+    return null
+  }, [name])
 
-  const handleValid = () => {
-    // 이름 오류
-    if (inputValue.name == "") {
-      setIsError((prevError) => ({
-        ...prevError,
-        nameError: "이름을 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        nameAvailable: false,
-      }));
-    } else if (!nameRegex.test(inputValue.name)) {
-      setIsError((prevError) => ({
-        ...prevError,
-        nameError: "올바른 이름을 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        nameAvailable: false,
-      }));
-    } else {
-      setIsError((prevError) => ({
-        ...prevError,
-        nameError: "",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        nameAvailable: true,
-      }));
-    }
+  const emailInvalid = useMemo(() => {
+    if (email === "")
+      return "이메일을 입력해주세요!"
+    if (!emailRegex.test(email))
+      return "올바른 이메일 형식을 입력해주세요!"
 
-    // 이메일 오류
-    if (inputValue.email == "") {
-      setIsError((prevError) => ({
-        ...prevError,
-        emailError: "이메일을 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        emailAvailable: false,
-      }));
-    } else if (!emailRegex.test(inputValue.email)) {
-      setIsError((prevError) => ({
-        ...prevError,
-        emailError: "올바른 이메일 형식을 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        emailAvailable: false,
-      }));
-    } else {
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        emailAvailable: true,
-      }));
-    }
+    return null
+  }, [email])
 
-    // 나이 오류
-    if (inputValue.age == "") {
-      setIsError((prevError) => ({
-        ...prevError,
-        ageError: "나이를 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        ageAvailable: false,
-      }));
-    } else if (!ageRegex.test(inputValue.age)) {
-      setIsError((prevError) => ({
-        ...prevError,
-        ageError: "숫자를 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        ageAvailable: false,
-      }));
-    } else if (parseInt(inputValue.age) < 1) {
-      setIsError((prevError) => ({
-        ...prevError,
-        ageError: "나이는 양수여야 합니다!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        ageAvailable: false,
-      }));
-    } else if (isNaN(parseInt(inputValue.age))) {
-      setIsError((prevError) => ({
-        ...prevError,
-        ageError: "나이는 실수로 입력할 수 없습니다!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        ageAvailable: false,
-      }));
-    } else if (parseInt(inputValue.age) < 19) {
-      setIsError((prevError) => ({
-        ...prevError,
-        ageError: "19세 이상만 가입이 가능합니다!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        ageAvailable: false,
-      }));
-    } else {
-      setIsError((prevError) => ({ ...prevError, ageError: "" }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        ageAvailable: true,
-      }));
-    }
+  const ageInvalid = useMemo(() => {
+    if (age === "")
+      return "나이를 입력해주세요!"
+    if (!ageRegex.test(age))
+      return "숫자를 입력해주세요!"
+    if (parseInt(age) < 1)
+      return "나이는 양수여야 합니다!"
+    if (isNaN(parseInt(age)))
+      return "나이는 실수로 입력할 수 없습니다!"
+    if (parseInt(age) < 19)
+      return "19세 이상만 가입이 가능합니다!"
+    
+    return null
+  }, [age])
 
-    // 비밀번호 오류
-    if (inputValue.password == "") {
-      setIsError((prevError) => ({
-        ...prevError,
-        passwordError: "비밀번호를 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        passwordAvailable: false,
-      }));
-    } else if (!passwordRegex.test(inputValue.password)) {
-      setIsError((prevError) => ({
-        ...prevError,
-        passwordError:
-          "비밀번호는 4-12자의 영소문자, 숫자, 특수문자를 모두 조합해서 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        passwordAvailable: false,
-      }));
-    } else {
-      setIsError((prevError) => ({
-        ...prevError,
-        passwordError: "",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        passwordAvailable: true,
-      }));
-    }
+  const passwordInvalid = useMemo(() => {
+    if (password === "")
+      return "비밀번호를 입력해주세요!"
+    if (!passwordRegex.test(password))
+      return "비밀번호는 4-12자의 영소문자, 숫자, 특수문자를 모두 조합해서 입력해주세요!"
 
-    // 비밀번호 확인 오류
-    if (inputValue.passwordCheck == "") {
-      setIsError((prevError) => ({
-        ...prevError,
-        passwordCheckError: "비밀번호를 입력해주세요!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        passwordCheckAvailable: false,
-      }));
-    } else if (inputValue.password !== inputValue.passwordCheck) {
-      setIsError((prevError) => ({
-        ...prevError,
-        passwordCheckError: "비밀번호가 일치하지 않습니다!",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        passwordCheckAvailable: false,
-      }));
-    } else {
-      setIsError((prevError) => ({
-        ...prevError,
-        passwordCheckError: "",
-      }));
-      setIsAvailable((prevAvailable) => ({
-        ...prevAvailable,
-        passwordCheckAvailable: true,
-      }));
-    }
-  };
+    return null
+  }, [password])
 
-  useEffect(() => {
-    handleValid();
-  }, [inputValue]);
+  const passwordCheckInvalid = useMemo(() => {
+    if (passwordCheck === "")
+      return "비밀번호를 입력해주세요!"
+    if (password !== passwordCheck)
+      return "비밀번호가 일치하지 않습니다!"
+
+    return null
+  }, [password, passwordCheck])
+
+  const formValid = useMemo(
+    () => !nameInvalid && !emailInvalid && !ageInvalid && !passwordInvalid && !passwordCheckInvalid,
+    [nameInvalid, emailInvalid, ageInvalid, passwordInvalid, passwordCheckInvalid]
+  )
 
   const SignUpClick = () => {
-    if (
-      isAvailable.nameAvailable &&
-      isAvailable.emailAvailable &&
-      isAvailable.ageAvailable &&
-      isAvailable.passwordAvailable &&
-      isAvailable.passwordCheckAvailable
-    ) {
+    if (formValid) {
       alert("회원가입에 성공하였습니다.");
-      const user = {
-        이름: inputValue.name,
-        이메일: inputValue.email,
-        나이: inputValue.age,
-        비밀번호: inputValue.password,
-      };
+      const user = { name, email, age, password };
       console.log("유저정보", user);
       navigate("/login");
     } else {
@@ -296,73 +152,53 @@ const SignUpPage = () => {
         <StyleInput
           type="text"
           placeholder="이름을 입력해주세요"
-          value={inputValue.name}
-          onChange={(event) =>
-            setInputValue({ ...inputValue, name: event.target.value })
-          }
+          value={name}
+          onBlur={setNameTouched}
+          onChange={(event) => setName(event.target.value)}
         />
-        {isAvailable.nameAvailable ? null : (
-          <ErrorMessage>{isError.nameError}</ErrorMessage>
-        )}
+        {nameInvalid && nameTouched && <ErrorMessage>{nameInvalid}</ErrorMessage>}
 
         <StyleInput
           type="email"
           placeholder="이메일을 입력해주세요"
-          value={inputValue.email}
-          onChange={(event) =>
-            setInputValue({ ...inputValue, email: event.target.value })
-          }
+          value={email}
+          onBlur={setEmailTouched}
+          onChange={(event) => setEmail(event.target.value)}
         />
-        {isAvailable.emailAvailable ? null : (
-          <ErrorMessage>{isError.emailError}</ErrorMessage>
-        )}
+        {emailInvalid && emailTouched && <ErrorMessage>{emailInvalid}</ErrorMessage>}
 
         <StyleInput
           type="text"
           placeholder="나이를 입력해주세요"
-          value={inputValue.age}
-          onChange={(event) =>
-            setInputValue({ ...inputValue, age: event.target.value })
-          }
+          value={age}
+          onBlur={setAgeTouched}
+          onChange={(event) => setAge(event.target.value)}
         />
-        {isAvailable.ageAvailable ? null : (
-          <ErrorMessage>{isError.ageError}</ErrorMessage>
-        )}
+        {ageInvalid && ageTouched && <ErrorMessage>{ageInvalid}</ErrorMessage>}
 
         <StyleInput
           type="password"
           placeholder="비밀번호를 입력해주세요"
-          value={inputValue.password}
-          onChange={(event) =>
-            setInputValue({ ...inputValue, password: event.target.value })
+          value={password}
+          onBlur={setPasswordTouched}
+          onChange={(event) => setPassword(event.target.value)
           }
         />
-        {isAvailable.passwordAvailable ? null : (
-          <ErrorMessage>{isError.passwordError}</ErrorMessage>
-        )}
+        {passwordInvalid && passwordTouched && <ErrorMessage>{passwordInvalid}</ErrorMessage>}
 
         <StyleInput
           type="password"
           placeholder="비밀번호 확인"
-          value={inputValue.passwordCheck}
-          onChange={(event) =>
-            setInputValue({ ...inputValue, passwordCheck: event.target.value })
-          }
+          value={passwordCheck}
+          onBlur={setPasswordCheckTouched}
+          onChange={(event) => setPasswordCheck(event.target.value)}
         />
-        {isAvailable.passwordCheckAvailable ? null : (
-          <ErrorMessage>{isError.passwordCheckError}</ErrorMessage>
-        )}
+        {passwordCheckInvalid && passwordCheckTouched && <ErrorMessage>{passwordCheckInvalid}</ErrorMessage>}
       </FormContainer>
 
       <SubmitButton
         onClick={SignUpClick}
-        $allValid={
-          isAvailable.nameAvailable &&
-          isAvailable.emailAvailable &&
-          isAvailable.ageAvailable &&
-          isAvailable.passwordAvailable &&
-          isAvailable.passwordCheckAvailable
-        }
+        $allValid={formValid}
       >
         제출하기
       </SubmitButton>
