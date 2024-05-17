@@ -13,7 +13,7 @@ export const Intro = () => {
     if (!query) return
 
     setSearching(true)
-    const responseBody = await TMDB.get("/search/movie?query=${encodeURIComponent(query)}").then(it => it.json())
+    const responseBody = await TMDB.get(`/search/movie?query=${encodeURIComponent(query)}`).then(it => it.json())
     setSearchResults(responseBody.results)
     setSearching(false)
   }, [query])
