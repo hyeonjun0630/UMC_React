@@ -49,7 +49,7 @@ const SubmitButton = styled.div`
 const AlreadyHasId = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 70%;
+  width: 80%;
   margin-top: 30px;
 `;
 
@@ -58,6 +58,7 @@ const StyleLink = styled(Link)`
 `;
 
 const nameRegex = /^[ㄱ-ㅎ|가-힣]+$/;
+const idRegex = /^[a-zA-Z0-9]{1,12}$/;
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 const ageRegex = /^[0-9]+$/;
 const passwordRegex =
@@ -67,12 +68,14 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState("")
+  const [id, setId] = useState("")
   const [email, setEmail] = useState("")
   const [age, setAge] = useState("")
   const [password, setPassword] = useState("")
   const [passwordCheck, setPasswordCheck] = useState("")
 
   const [nameTouched, setNameTouched] = useState(null)
+  const [idTouched, setIdTouched] = useState(null)
   const [emailTouched, setEmailTouched] = useState(null)
   const [ageTouched, setAgeTouched] = useState(null)
   const [passwordTouched, setPasswordTouched] = useState(null)
@@ -86,6 +89,15 @@ const SignUpPage = () => {
 
     return null
   }, [name])
+
+  const idInValid = useMemo( () => {
+    if (id === "")
+      return "아이디를 입력해주세요!"
+    if (!idRegex.test(id))
+      return "올바른 아이디를 입력해주세요!"
+
+    return null
+  }, [id])
 
   const emailInvalid = useMemo(() => {
     if (email === "")
@@ -130,14 +142,14 @@ const SignUpPage = () => {
   }, [password, passwordCheck])
 
   const formValid = useMemo(
-    () => !nameInvalid && !emailInvalid && !ageInvalid && !passwordInvalid && !passwordCheckInvalid,
-    [nameInvalid, emailInvalid, ageInvalid, passwordInvalid, passwordCheckInvalid]
+    () => !nameInvalid && !idInValid && !emailInvalid && !ageInvalid && !passwordInvalid && !passwordCheckInvalid,
+    [nameInvalid, idInValid, ageInvalid, emailInvalid, passwordInvalid, passwordCheckInvalid]
   )
 
   const SignUpClick = () => {
     if (formValid) {
       alert("회원가입에 성공하였습니다.");
-      const user = { name, email, age, password };
+      const user = { name, id, email, age, password };
       console.log("유저정보", user);
       navigate("/login");
     } else {
@@ -157,6 +169,15 @@ const SignUpPage = () => {
           onChange={(event) => setName(event.target.value)}
         />
         {nameInvalid && nameTouched && <ErrorMessage>{nameInvalid}</ErrorMessage>}
+
+        <StyleInput
+          type="id"
+          placeholder="아이디를 입력해주세요"
+          value={id}
+          onBlur={() => setIdTouched(true)}
+          onChange={(event) => setId(event.target.value)}
+        />
+        {idInValid && idTouched && <ErrorMessage>{idInValid}</ErrorMessage>}
 
         <StyleInput
           type="email"

@@ -34,16 +34,6 @@ const Spacer = styled.div`
   flex: 1;
 `
 
-const Button = styled.button`
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: none;
-    color: white;
-`
-
 const HeaderAnchor = styled(Link)`
     border: none;
     background: none;
@@ -62,7 +52,6 @@ const HeaderAnchor = styled(Link)`
 export const Footer = () => {
   return (
     <FooterRoot>
-      {/*<a href={"https://www.makeus.in/umc"}>https://www.makeus.in/umc</a>*/}
       https://www.makeus.in/umc
     </FooterRoot>
   )
@@ -74,5 +63,4 @@ const FooterRoot  = styled.div`
     background-color: #272727;
     color: white;
     flex-shrink: 0;
-    //text-decoration: none;
 `

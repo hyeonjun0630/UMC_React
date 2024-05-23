@@ -1,5 +1,6 @@
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import styled from "styled-components";
+import {useNavigate} from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -38,11 +39,66 @@ const SubmitButton = styled.div`
   cursor: pointer;
 `;
 
+const ErrorMessage = styled.div`
+  width: 100%;
+  color: red;
+  margin-bottom: 10px;
+  text-align: start;
+`;
+
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+const passwordRegex =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{4,12}$/;
+
 const LoginPage = () => {
-  const [inputValue, setInputValue] = useState({
-    email: "",
-    password: "",
-  });
+  const navigate = useNavigate();
+
+  // const [inputValue, setInputValue] = useState({ // 기존부분
+  //   email: "",
+  //   password: "",
+  // });
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const [emailTouched, setEmailTouched] = useState(null)
+  const [passwordTouched, setPasswordTouched] = useState(null)
+
+  const emailInvalid = useMemo(() => {
+    if (email === "")
+      return "이메일을 입력해주세요!"
+    if (!emailRegex.test(email))
+      return "올바른 이메일 형식을 입력해주세요!"
+
+    return null
+  }, [email])
+
+  const passwordInvalid = useMemo(() => {
+    if (password === "")
+      return "비밀번호를 입력해주세요!"
+    if (!passwordRegex.test(password))
+      return "비밀번호는 4-12자의 영소문자, 숫자, 특수문자를 모두 조합해서 입력해주세요!"
+
+    return null
+  }, [password])
+
+  const formValid = useMemo(
+    () => !emailInvalid && !passwordInvalid,
+    [emailInvalid, passwordInvalid]
+  )
+
+  const LogInClick = () => {
+    if (formValid) {
+      alert("로그인에 성공하였습니다.");
+      const user = { email, password };
+      console.log("유저정보", user);
+      navigate("/");
+    } else {
+      console.log("로그인에 실패하였습니다.");
+      alert("로그인에 실패하였습니다.");
+      window.location.reload(); // 페이지 새로고침
+    }
+  };
 
   return (
     <Container>
@@ -51,23 +107,34 @@ const LoginPage = () => {
         <StyleInput
           type="email"
           placeholder="이메일을 입력해주세요"
-          value={inputValue.email}
+          // value={inputValue.email}
+          value={email}
+          onBlur={() => setEmailTouched(true)}
           onChange={(event) =>
-            setInputValue({ ...inputValue, email: event.target.value })
-          }
+            // setInputValue({ ...inputValue, email: event.target.value })
+            setEmail(event.target.value)}
         />
+        {emailInvalid && emailTouched && <ErrorMessage>{emailInvalid}</ErrorMessage>}
 
         <StyleInput
           type="password"
-          placeholder="비밀번호를 입력해주세요!"
-          value={inputValue.password}
+          placeholder="비밀번호를 입력해주세요"
+          // value={inputValue.password}
+          value={password}
+          onBlur={() => setPasswordTouched(true)}
           onChange={(event) =>
-            setInputValue({ ...inputValue, password: event.target.value })
-          }
+            // setInputValue({ ...inputValue, password: event.target.value })
+            setPassword(event.target.value)}
         />
+        {passwordInvalid && passwordTouched && <ErrorMessage>{passwordInvalid}</ErrorMessage>}
       </FormContainer>
 
-      <SubmitButton>로그인</SubmitButton>
+      <SubmitButton
+        onClick={LogInClick}
+        $allValid={formValid}
+      >
+        로그인
+      </SubmitButton>
     </Container>
   );
 };
