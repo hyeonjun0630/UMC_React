@@ -1,22 +1,41 @@
 import styled from "styled-components";
 import {Link, useLocation} from "react-router-dom";
+import {useUserContext} from "../UserContext.jsx";
+import PropTypes from "prop-types";
 
 export const Header = () => {
-  const location = useLocation()
+  const { token, logout } = useUserContext()
 
   return (
     <HeaderRoot>
-      <HeaderTitle><HeaderAnchor to={"/"} selected={location.pathname === "/"}>UMC Movie</HeaderAnchor></HeaderTitle>
+      <HeaderTitle><HeaderItem to={"/"}>UMC Movie</HeaderItem></HeaderTitle>
 
       <Spacer/>
 
-      <HeaderAnchor to={"/signUp"} selected={location.pathname === "/signUp"}>회원가입</HeaderAnchor>
-      <HeaderAnchor to={"/popular"} selected={location.pathname === "/popular"}>Popular</HeaderAnchor>
-      <HeaderAnchor to={"/nowplaying"} selected={location.pathname === "/nowplaying"}>Now Playing</HeaderAnchor>
-      <HeaderAnchor to={"/toprated"} selected={location.pathname === "/toprated"}>Top Rated</HeaderAnchor>
-      <HeaderAnchor to={"/upcoming"} selected={location.pathname === "/upcoming"}>Upcoming</HeaderAnchor>
+      {token ?
+        <>
+          <HeaderAnchor to={""} onClick={logout}>로그아웃</HeaderAnchor>
+        </> :
+        <>
+          <HeaderItem to={"/signUp"}>회원가입</HeaderItem>
+          <HeaderItem to={"/login"}>로그인</HeaderItem>
+        </>
+      }
+      <HeaderItem to={"/popular"}>Popular</HeaderItem>
+      <HeaderItem to={"/nowplaying"}>Now Playing</HeaderItem>
+      <HeaderItem to={"/toprated"}>Top Rated</HeaderItem>
+      <HeaderItem to={"/upcoming"}>Upcoming</HeaderItem>
     </HeaderRoot>
   )
+}
+
+const HeaderItem = props => {
+  const location = useLocation()
+  return <HeaderAnchor to={props.to} selected={location.pathname === props.to}>{props.children}</HeaderAnchor>
+}
+HeaderItem.propTypes = {
+  to: PropTypes.string,
+  children: PropTypes.node
 }
 
 const HeaderRoot = styled.div`

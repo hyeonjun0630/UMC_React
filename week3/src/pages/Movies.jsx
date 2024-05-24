@@ -13,10 +13,13 @@ const Movies = props => {
 
   const [movies, setMovies] = useState([])
 
+  // { page, type, ... } 와 { page: page, type: type, ... } 는 같은 의미. 키와 값의 변수 이름이 같으면 축약할 수 있다.
+  const childrenProps = { type, page, setPage, movies, setMovies }
+
   if (pagination === "page")
-    return <PagerMovies type={type} page={page} setPage={setPage} movies={movies} setMovies={setMovies}/>
-  else
-    return <ScrollingMovies type={type} page={page} setPage={setPage} movies={movies} setMovies={setMovies}/>
+    return <PagerMovies { ...childrenProps }/>
+  else // (pagination === "infinite-scroll")
+    return <ScrollingMovies { ...childrenProps } />
 }
 
 Movies.propTypes = {

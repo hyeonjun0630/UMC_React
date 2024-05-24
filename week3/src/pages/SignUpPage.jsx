@@ -67,12 +67,12 @@ const passwordRegex =
 const SignUpPage = () => {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("")
-  const [id, setId] = useState("")
-  const [email, setEmail] = useState("")
-  const [age, setAge] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordCheck, setPasswordCheck] = useState("")
+  const [name, setName] = useState("김현준")
+  const [id, setId] = useState("ASDF")
+  const [email, setEmail] = useState("asd@naver.com")
+  const [age, setAge] = useState("24")
+  const [password, setPassword] = useState("Hyeon1!")
+  const [passwordCheck, setPasswordCheck] = useState("Hyeon1!")
 
   const [nameTouched, setNameTouched] = useState(null)
   const [idTouched, setIdTouched] = useState(null)
@@ -146,14 +146,19 @@ const SignUpPage = () => {
     [nameInvalid, idInValid, ageInvalid, emailInvalid, passwordInvalid, passwordCheckInvalid]
   )
 
-  const SignUpClick = () => {
+  const signUpClick = async () => {
     if (formValid) {
-      alert("회원가입에 성공하였습니다.");
-      const user = { name, id, email, age, password };
-      console.log("유저정보", user);
-      navigate("/login");
+      const body = JSON.stringify({ name, username: id, email, age: age, password, passwordCheck });
+      // B.E.로 보내기 =
+      const response = await fetch("http://localhost:8080/auth/signup", { method: "POST", body, headers: { "Content-Type": "application/json" } })
+      if (response.ok) { // 응답코드가 200번대이면!
+        alert("회원가입에 성공하였습니다.");
+        navigate("/login");
+      } else {
+        alert("회원가입 실패!!")
+      }
     } else {
-      console.log("회원가입에 실패하였습니다.");
+      console.log("필드에 잘못된 데이터가 있습니다.");
     }
   };
 
@@ -218,7 +223,7 @@ const SignUpPage = () => {
       </FormContainer>
 
       <SubmitButton
-        onClick={SignUpClick}
+        onClick={signUpClick}
         $allValid={formValid}
       >
         제출하기

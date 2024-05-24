@@ -3,8 +3,14 @@ import styled from "styled-components";
 import {useCallback, useEffect, useState} from "react";
 import {Movie} from "./Movies.jsx";
 import {TMDB} from "../utils/TheMovieDatabaseApi.js";
+import {useUserContext} from "../UserContext.jsx";
 
 export const Intro = () => {
+  const { token, user } = useUserContext()
+  // user?.name => user 가 null 이거나 undefined 이면 undefined, 그렇지 않으면 user.name 입니다.
+  // a ?? b => a 가 null 이거나 undefined 이면 b, 그렇지 않으면 a 입니다.
+  const message = !token ? "환영합니다!" : user?.name ? `${user.name}님 환영합니다.` : "사용자 데이터를 가져오는 중입니다."
+
   const [query, setQuery] = useState("")
   const [searchResults, setSearchResults] = useState([])
   const [searching, setSearching] = useState(false)
@@ -35,7 +41,7 @@ export const Intro = () => {
 
   return (
     <>
-      <IntroContent>환영합니다</IntroContent>
+      <IntroContent>{message}</IntroContent>
       <Back>
         <BackContent>🎬 Find your movies!</BackContent>
         <TextBox onChange={(event) => setQuery(event.target.value)}></TextBox>

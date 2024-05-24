@@ -1,6 +1,7 @@
 import {useMemo, useState} from "react";
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
+import {useUserContext} from "../UserContext.jsx";
 
 const Container = styled.div`
   display: flex;
@@ -46,32 +47,34 @@ const ErrorMessage = styled.div`
   text-align: start;
 `;
 
-const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+const idRegex = /^[a-zA-Z0-9]{1,12}$/;
 const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{4,12}$/;
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  const { login } = useUserContext()
+
   // const [inputValue, setInputValue] = useState({ // 기존부분
   //   email: "",
   //   password: "",
   // });
 
-  const [email, setEmail] = useState("")
+  const [id, setId] = useState("")
   const [password, setPassword] = useState("")
 
   const [emailTouched, setEmailTouched] = useState(null)
   const [passwordTouched, setPasswordTouched] = useState(null)
 
-  const emailInvalid = useMemo(() => {
-    if (email === "")
-      return "이메일을 입력해주세요!"
-    if (!emailRegex.test(email))
-      return "올바른 이메일 형식을 입력해주세요!"
+  const idInValid = useMemo( () => {
+    if (id === "")
+      return "아이디를 입력해주세요!"
+    if (!idRegex.test(id))
+      return "올바른 아이디를 입력해주세요!"
 
     return null
-  }, [email])
+  }, [id])
 
   const passwordInvalid = useMemo(() => {
     if (password === "")
@@ -83,20 +86,29 @@ const LoginPage = () => {
   }, [password])
 
   const formValid = useMemo(
-    () => !emailInvalid && !passwordInvalid,
-    [emailInvalid, passwordInvalid]
+    () => !idInValid && !passwordInvalid,
+    [idInValid, passwordInvalid]
   )
 
-  const LogInClick = () => {
+  const clearForm = () => {
+    setId("")
+    setPassword("")
+    setEmailTouched(null)
+    setPasswordTouched(null)
+  }
+
+  const LogInClick = async () => {
     if (formValid) {
-      alert("로그인에 성공하였습니다.");
-      const user = { email, password };
-      console.log("유저정보", user);
-      navigate("/");
+      try {
+        await login(id, password)
+        alert("로그인에 성공하였습니다.");
+        navigate("/");
+      } catch (e) {
+        alert("로그인에 실패하였습니다.");
+      }
     } else {
-      console.log("로그인에 실패하였습니다.");
-      alert("로그인에 실패하였습니다.");
-      window.location.reload(); // 페이지 새로고침
+      alert("필드에 이상한 값이 있습니다.");
+      clearForm()
     }
   };
 
@@ -105,16 +117,16 @@ const LoginPage = () => {
       <h1>로그인 페이지</h1>
       <FormContainer>
         <StyleInput
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          // value={inputValue.email}
-          value={email}
+          type="text"
+          placeholder="아이디를 입력해주세요"
+          // value={inputValue.id}
+          value={id}
           onBlur={() => setEmailTouched(true)}
           onChange={(event) =>
-            // setInputValue({ ...inputValue, email: event.target.value })
-            setEmail(event.target.value)}
+            // setInputValue({ ...inputValue, id: event.target.value })
+            setId(event.target.value)}
         />
-        {emailInvalid && emailTouched && <ErrorMessage>{emailInvalid}</ErrorMessage>}
+        {idInValid && emailTouched && <ErrorMessage>{idInValid}</ErrorMessage>}
 
         <StyleInput
           type="password"
