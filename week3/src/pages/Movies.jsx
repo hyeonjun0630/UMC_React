@@ -1,24 +1,48 @@
 import styled from "styled-components";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {TMDB} from "../utils/TheMovieDatabaseApi.js";
+import PropTypes from "prop-types";
 
 
 const Movies = props => {
-  const { type } = props
+  // pagination에 유효한 값이 있으면(infinite 기반) 그걸 쓰고, 없으면 page기반 pagination을 사용
+  // 마지막 export 참조
+  const { type, pagination = "page" } = props
+  const [page, setPage] = useState(1)
 
   const [movies, setMovies] = useState([])
 
-  const [page, setPage] = useState(1)
+  if (pagination === "page")
+    return <PagerMovies type={type} page={page} setPage={setPage} movies={movies} setMovies={setMovies}/>
+  else
+    return <ScrollingMovies type={type} page={page} setPage={setPage} movies={movies} setMovies={setMovies}/>
+}
 
-  // Data fetcing
+Movies.propTypes = {
+  type: PropTypes.string,
+  pagination: PropTypes.string,
+}
+
+const MoviesChildrenPropTypes = {
+  page: PropTypes.number,
+  setPage: PropTypes.func,
+  movies: PropTypes.array,
+  type: PropTypes.string,
+  setMovies: PropTypes.func
+}
+
+const PagerMovies = props => {
+  const { page, setPage, movies, type, setMovies } = props
+
+  // Page 전용 Data fetcing
   useEffect(() => {
     const async = async () => {
       const responseBody = await TMDB.get(`/movie/${type}?language=ko-KR&page=${page}`).then(it => it.json())
       setMovies(responseBody.results)
     }
     async().then()
-  }, [type, page]);
+  }, [type, page, setMovies]);
 
   return (
     <>
@@ -29,6 +53,47 @@ const Movies = props => {
     </>
   )
 }
+PagerMovies.propTypes = MoviesChildrenPropTypes
+
+
+const ScrollingMovies = props => {
+  const { setPage, movies, type, setMovies, page } = props
+
+  const onPageScroll = (event) => {
+    // const element = document.getElementById("ASDF") 아래와 같은 코드
+    const divElement = event.currentTarget
+    // element === divElement // true
+
+    const {
+      scrollTop, // 위쪽 점 기준 스크롤 위치
+      scrollHeight, // 전체 높이, 즉 예를 들면 1000
+      offsetHeight  // 화면에 보이는 높이, 예를 들면 크롬 창 윈도우 높이에서 크롬의 헤더를 뺀 무언가.
+    } = divElement
+
+    const isFullyScrolled = Math.abs(Math.floor(scrollTop + offsetHeight) - scrollHeight) < 2 // 가장 아래까지 내리면 true
+
+    if (isFullyScrolled)
+      setPage(prev => prev + 1)
+  }
+
+  // Scroll 전용 Data fetcing
+  useEffect(() => {
+    const async = async () => {
+      const responseBody = await TMDB.get(`/movie/${type}?language=ko-KR&page=${page}`).then(it => it.json())
+      setMovies(prev => [...prev, ...responseBody.results])
+      // ... 없으면 = [[{}, {}, {}], [{}, {}, {}]]
+      // ... 있으면 = [{}, {}, {}, {}, {}, {}]
+    }
+    async().then()
+  }, [type, page, setMovies]);
+
+  return (
+    <MoviesContainer onScroll={onPageScroll}/* id={"ASDF"}*/>
+      {movies.map((movie) => <Movie key={movie.id} movie={movie}/>)}
+    </MoviesContainer>
+  )
+}
+ScrollingMovies.propTypes = MoviesChildrenPropTypes
 
 const Pager = props => {
   // [page, setPage] 상태가 여기에 있으면 실제로 영화를 로드하는 Movies 컴포넌트에서
@@ -43,6 +108,12 @@ const Pager = props => {
     </PagerRoot>
   )
 }
+
+Pager.propTypes = {
+  setPage: PropTypes.func,
+  page: PropTypes.number
+}
+
 // Movie와 Pager의 관계성...
 // int Movies() {
 //   int b = 0;
@@ -134,6 +205,10 @@ export const Movie = props => {
   )
 }
 
+Movie.propTypes = { // 흑마술... 함부로 쓰지 말자
+  movie: PropTypes.any
+}
+
 const MoviePosterContainer = styled.div``
 
 const MovieOverview = styled.div`
@@ -189,5 +264,5 @@ const MoviePoster = styled.img`
 
   export const PopularMovies = () => <Movies type={"popular"}/>
   export const UpcomingMovies = () => <Movies type={"upcoming"}/>
-  export const NowPlayingMovies = () => <Movies type={"now_playing"}/>
+  export const NowPlayingMovies = () => <Movies type={"now_playing"} pagination={"infinite-scroll"}/>
   export const TopRatedMovies = () => <Movies type={"top_rated"}/>
