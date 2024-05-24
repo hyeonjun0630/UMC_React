@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {TMDB} from "../utils/TheMovieDatabaseApi.js";
 
@@ -9,21 +9,72 @@ const Movies = props => {
 
   const [movies, setMovies] = useState([])
 
+  const [page, setPage] = useState(1)
+
   // Data fetcing
   useEffect(() => {
     const async = async () => {
-      const responseBody = await TMDB.get(`/movie/${type}?language=ko-KR&page=1`).then(it => it.json())
+      const responseBody = await TMDB.get(`/movie/${type}?language=ko-KR&page=${page}`).then(it => it.json())
       setMovies(responseBody.results)
     }
     async().then()
-  }, [type]);
+  }, [type, page]);
 
   return (
-    <MoviesContainer>
-      {movies.map((movie, index) => <Movie key={index} movie={movie}/>)}
-    </MoviesContainer>
+    <>
+      <MoviesContainer>
+        {movies.map((movie) => <Movie key={movie.id} movie={movie}/>)}
+      </MoviesContainer>
+      <Pager page={page} setPage={setPage} />
+    </>
   )
 }
+
+const Pager = props => {
+  // [page, setPage] 상태가 여기에 있으면 실제로 영화를 로드하는 Movies 컴포넌트에서
+  // page 변수에 접근할 수 없다.
+  // 위 Movie에 써줘야한다.
+
+  return (
+    <PagerRoot>
+      <PagerArrow onClick={() => props.setPage(prev => Math.max(prev - 1, 1))}>&lt;</PagerArrow>
+      <PagerIndex>{props.page ?? 1}</PagerIndex>
+      <PagerArrow onClick={() => props.setPage(prev => prev + 1)}>&gt;</PagerArrow>
+    </PagerRoot>
+  )
+}
+// Movie와 Pager의 관계성...
+// int Movies() {
+//   int b = 0;
+//   Pager(b);
+// }
+
+// void Pager(int aaa) {
+//   int a = 0;
+// }
+
+const PagerRoot = styled.div`
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #363636;
+    
+    color: white;
+    
+    padding: 16px 0;
+`
+
+const PagerArrow = styled.button`
+  background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+`
+
+const PagerIndex = styled.div`
+  margin: 0 24px;
+`
 
 const MoviesContainer = styled.div`
     display: grid;
