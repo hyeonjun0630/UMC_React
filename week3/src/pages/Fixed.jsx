@@ -2,9 +2,17 @@ import styled from "styled-components";
 import {Link, useLocation} from "react-router-dom";
 import {useUserContext} from "../UserContext.jsx";
 import PropTypes from "prop-types";
+import {useEffect, useState} from "react";
 
 export const Header = () => {
   const { token, logout } = useUserContext()
+  const { pathname } = useLocation()
+
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname]);
 
   return (
     <HeaderRoot>
@@ -12,19 +20,22 @@ export const Header = () => {
 
       <Spacer/>
 
-      {token ?
-        <>
-          <HeaderAnchor to={""} onClick={logout}>로그아웃</HeaderAnchor>
-        </> :
-        <>
-          <HeaderItem to={"/signUp"}>회원가입</HeaderItem>
-          <HeaderItem to={"/login"}>로그인</HeaderItem>
-        </>
-      }
-      <HeaderItem to={"/popular"}>Popular</HeaderItem>
-      <HeaderItem to={"/nowplaying"}>Now Playing</HeaderItem>
-      <HeaderItem to={"/toprated"}>Top Rated</HeaderItem>
-      <HeaderItem to={"/upcoming"}>Upcoming</HeaderItem>
+      <HeaderRightMenu $open={open}>
+        {token ?
+          <>
+            <HeaderAnchor to={""} onClick={logout}>로그아웃</HeaderAnchor>
+          </> :
+          <>
+            <HeaderItem to={"/signUp"}>회원가입</HeaderItem>
+            <HeaderItem to={"/login"}>로그인</HeaderItem>
+          </>
+        }
+        <HeaderItem to={"/popular"}>Popular</HeaderItem>
+        <HeaderItem to={"/nowplaying"}>Now Playing</HeaderItem>
+        <HeaderItem to={"/toprated"}>Top Rated</HeaderItem>
+        <HeaderItem to={"/upcoming"}>Upcoming</HeaderItem>
+      </HeaderRightMenu>
+      <Hamburger src={"/burger.svg"} onClick={() => setOpen(prev => !prev)}/>
     </HeaderRoot>
   )
 }
@@ -65,6 +76,33 @@ const HeaderAnchor = styled(Link)`
     
     &:hover {
         transform: scale(1.05);
+    }
+`
+
+const HeaderRightMenu = styled.div`
+    display: flex;
+    @media (max-width: 580px) {
+        position: fixed;
+        top: 53px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        opacity: ${props => (props.$open ? 1 : 0)};
+        transform: translateX(${props => props.$open ? "0" : "20px"});
+        transition: transform 0.1s linear, opacity 0.1s linear;
+        background-color: black;
+        flex-direction: column;
+        align-items: flex-start;
+        pointer-events: ${props => props.$open ? "auto" : "none"};
+        z-index: 9999999;
+    }
+`
+
+const Hamburger = styled.img`
+  display: none;
+    @media (max-width: 580px) {
+        display: block;
+        
     }
 `
 

@@ -6,9 +6,22 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 80px;
-  width: 30%;
-  margin: 0 auto;
+  //padding-top: 80px;
+  //width: 30%;
+  //margin: 0 auto;
+    align-self: stretch;
+    padding: 80px 30% 0 30%;
+    
+    flex-grow: 1;
+    overflow: auto;
+    
+    & > h1 {
+        white-space: nowrap;
+    }
+    @media (max-width: 580px) {
+        //width: 60%;
+        padding: 80px 15% 0 15%;
+    }
 `;
 
 const FormContainer = styled.div`
@@ -24,6 +37,10 @@ const StyleInput = styled.input`
   margin-top: 20px;
   border-radius: 15px;
   font-size: 18px;
+
+    //@media (max-width: 580px) and (min-width: 400px) {
+    //    width: 150%;
+    //}
 `;
 
 const ErrorMessage = styled.div`
@@ -35,7 +52,7 @@ const ErrorMessage = styled.div`
 
 const SubmitButton = styled.div`
   margin-top: 30px;
-  width: 50%;
+  width: 100%;
   background-color: ${(props) => (props.$allValid ? "#0074ff" : "gray")};
   border-radius: 30px;
   text-align: center;
@@ -44,13 +61,25 @@ const SubmitButton = styled.div`
   color: white;
   padding: 10px 0;
   cursor: pointer;
+
+    //@media (max-width: 580px) and (min-width: 400px)  {
+    //    width: 100%;
+    //    font-size: 20px;
+    //    padding: 10px 0;
+    //}
 `;
 
 const AlreadyHasId = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 85%;
   margin-top: 30px;
+
+    //@media (max-width: 580px) and (min-width: 400px) {
+    //    font-size: medium;
+    //    width: 230%;
+    //    margin-top: 20px;
+    //}
 `;
 
 const StyleLink = styled(Link)`
@@ -68,7 +97,7 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState("김현준")
-  const [id, setId] = useState("ASDF")
+  const [id, setId] = useState("ASDFaa")
   const [email, setEmail] = useState("asd@naver.com")
   const [age, setAge] = useState("24")
   const [password, setPassword] = useState("Hyeon1!")

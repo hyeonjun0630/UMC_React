@@ -161,6 +161,18 @@ const MoviesContainer = styled.div`
     overflow: auto;
     
     background-color: #363636;
+
+    @media (max-width: 580px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 460px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 360px) {
+        grid-template-columns: repeat(1, 1fr);
+    }
 `
 
 // 이 컴포넌트의 내용의 위의 .map 함수의 내용으로 치환됩니다.

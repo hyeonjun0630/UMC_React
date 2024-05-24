@@ -51,8 +51,10 @@ export const UserContextProvider = ({ children }) => {
         {method: "GET", headers: {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}}
       )
 
-      if (myInfoResponse.status !== 200)
+      if (myInfoResponse.status !== 200) {
+        logout()
         throw Error({status: myInfoResponse.status, at: "me"})
+      }
 
       const me = await myInfoResponse.json()
       // me 는 username, name, age, email 을 가지는 오브젝트.
@@ -60,7 +62,7 @@ export const UserContextProvider = ({ children }) => {
       setUser(me)
     }
     async().then()
-  }, [token])
+  }, [token, logout])
 
   return (
     <UserContext.Provider value={{ token, setToken, login, logout, user }}>

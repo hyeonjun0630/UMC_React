@@ -10,6 +10,9 @@ const Container = styled.div`
   padding-top: 80px;
   width: 30%;
   margin: 0 auto;
+
+    flex-grow: 1;
+    overflow: auto;
 `;
 
 const FormContainer = styled.div`

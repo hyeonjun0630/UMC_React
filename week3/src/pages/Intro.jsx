@@ -80,6 +80,11 @@ const IntroContent = styled.div`
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    
+    // 580px이하에서 사이드바
+    //@media (max-width: 580px) {
+    //    
+    //}
 `
 
 const Back = styled.div`
@@ -98,6 +103,14 @@ const BackContent = styled.div`
     margin: 50px;
     font-size: xx-large;
     font-weight: bold;
+
+    @media (max-width: 580px) and (min-width: 400px) {
+        font-size: large;
+    }
+
+    @media (max-width: 400px) {
+        font-size: small;
+    }
 `
 
 const TextBox = styled.input`
@@ -110,5 +123,9 @@ const TextBox = styled.input`
 
     &:focus {
         border-color: #6495ed;
+    }
+
+    @media (max-width: 580px) and (min-width: 400px) {
+        font-size: 10px;
     }
 `

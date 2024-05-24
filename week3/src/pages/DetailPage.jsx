@@ -5,19 +5,29 @@ import {TMDB} from "../utils/TheMovieDatabaseApi.js";
 
 const Background = styled.div`
   width: 100%;
-  height: 100vh;
+  //height: 100vh;
   background: ${({ background }) => `url(${background})`};
   background-size: cover;
   background-position: center;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-grow: 1;
+    overflow: auto;
 `;
 
 const Container = styled.div`
-  height: 100%;
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   background-color: rgba(26, 15, 114, 0.8); /* 배경색과 투명도 조절 */
+    
+    @media (max-width: 580px) {
+        flex-wrap: wrap;
+    }
 `;
 
 const PosterImage = styled.img`
@@ -27,11 +37,16 @@ const PosterImage = styled.img`
 
 const Information = styled.div`
   width: 50%;
-  height: 70%;
+  //height: 70%;
   display: flex;
   flex-direction: column;
   padding: 10px;
   margin-left: 50px;
+
+    @media (max-width: 580px) {
+        margin-left: 0;
+        width: 80%;
+    }
 `;
 
 const DetailPage = () => {
