@@ -80,11 +80,6 @@ const IntroContent = styled.div`
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    
-    // 580px이하에서 사이드바
-    //@media (max-width: 580px) {
-    //    
-    //}
 `
 
 const Back = styled.div`

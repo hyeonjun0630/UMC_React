@@ -9,12 +9,11 @@ const Background = styled.div`
   background: ${({ background }) => `url(${background})`};
   background-size: cover;
   background-position: center;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    flex-grow: 1;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-grow: 1;
+  overflow: auto;
 `;
 
 const Container = styled.div`

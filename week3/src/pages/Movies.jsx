@@ -117,7 +117,7 @@ Pager.propTypes = {
   page: PropTypes.number
 }
 
-// Movie와 Pager의 관계성...
+// Movie와 Pager의 관계성을 C 스타일로 본다면...
 // int Movies() {
 //   int b = 0;
 //   Pager(b);
@@ -129,21 +129,19 @@ Pager.propTypes = {
 
 const PagerRoot = styled.div`
   display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #363636;
-    
-    color: white;
-    
-    padding: 16px 0;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #363636;
+  color: white;
+  padding: 16px 0;
 `
 
 const PagerArrow = styled.button`
   background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
+  border: none;
+  color: inherit;
+  cursor: pointer;
 `
 
 const PagerIndex = styled.div`

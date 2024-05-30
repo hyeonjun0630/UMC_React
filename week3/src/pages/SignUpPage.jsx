@@ -9,11 +9,10 @@ const Container = styled.div`
   //padding-top: 80px;
   //width: 30%;
   //margin: 0 auto;
-    align-self: stretch;
-    padding: 80px 30% 0 30%;
-    
-    flex-grow: 1;
-    overflow: auto;
+  align-self: stretch;
+  padding: 80px 30% 0 30%;
+  flex-grow: 1;
+  overflow: auto;
     
     & > h1 {
         white-space: nowrap;
