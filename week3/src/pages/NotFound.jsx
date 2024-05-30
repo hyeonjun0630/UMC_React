@@ -10,11 +10,11 @@ export function NotFoundPage() {
     </NotFound>
   );
 }
-
+// 이건 아무것도 아닙니다
 const NotFound = styled.div`
     background-color: #363636;
     height: 100%;
-    color: white;
+    color: white;ㅉ
     text-align: center;
     
     & > #bold {
