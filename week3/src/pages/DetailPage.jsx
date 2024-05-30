@@ -90,7 +90,21 @@ const DetailPage = () => {
               ? data.overview
               : "TMDB에서 제공하는 API에 상세 줄거리 정보가 없습니다."}
           </div>
+          {/*<div>*/}
+          {/*  <h3>출연진</h3>*/}
+          {/*  {detail?.cast?.map((actor, index) => (*/}
+          {/*    <div key={index}>*/}
+          {/*      <img*/}
+          {/*        src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}*/}
+          {/*        alt={actor.name}*/}
+          {/*        style={{ width: 100, height: 150, borderRadius: 50 }}*/}
+          {/*      />*/}
+          {/*      <div>{actor.name}</div>*/}
+          {/*    </div>*/}
+          {/*))}*/}
+          {/*</div>*/}
         </Information>
+        {/*// 그리드사용, 사진 border-radius 50 해서 사람들 뿌리기*/}
       </Container>
     </Background>
   );

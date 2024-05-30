@@ -102,7 +102,6 @@ const Hamburger = styled.img`
   display: none;
     @media (max-width: 580px) {
         display: block;
-        
     }
 `
 

@@ -14,7 +14,7 @@ export function NotFoundPage() {
 const NotFound = styled.div`
     background-color: #363636;
     height: 100%;
-    color: white;ㅉ
+    color: white;
     text-align: center;
     
     & > #bold {
