@@ -5,7 +5,6 @@ import {TMDB} from "../utils/TheMovieDatabaseApi.js";
 
 const Background = styled.div`
   width: 100%;
-  //height: 100vh;
   background: ${({ background }) => `url(${background})`};
   background-size: cover;
   background-position: center;
@@ -23,10 +22,9 @@ const Container = styled.div`
   align-items: center;
   color: white;
   background-color: rgba(26, 15, 114, 0.8); /* 배경색과 투명도 조절 */
-    
-    @media (max-width: 580px) {
-        flex-wrap: wrap;
-    }
+  @media (max-width: 580px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const PosterImage = styled.img`
@@ -36,17 +34,52 @@ const PosterImage = styled.img`
 
 const Information = styled.div`
   width: 50%;
-  //height: 70%;
   display: flex;
   flex-direction: column;
   padding: 10px;
   margin-left: 50px;
+  @media (max-width: 580px) {
+    margin-left: 0;
+    width: 80%;
+  }
+`;
 
+const Cast = styled.div`
+    padding: 20px;
+    width: 100%;
     @media (max-width: 580px) {
         margin-left: 0;
         width: 80%;
     }
 `;
+
+const CastGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 10px;
+  @media (max-width: 1130px) and (min-width: 990px){
+    grid-template-columns: repeat(8, 1fr);
+  }
+  @media (max-width: 990px) and (min-width: 580px){
+    grid-template-columns: repeat(5, 1fr);
+  }
+  @media (max-width: 580px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
+const ActorCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ActorImage = styled.img`
+  width: 100px;
+  height: 150px;
+  border-radius: 20px;
+`;
+
 
 const DetailPage = () => {
   // 현재 주소값을 받아오기
@@ -59,16 +92,18 @@ const DetailPage = () => {
   // 오브젝트 정의는 아래 두 API 가 응답하는 것들의 합집합입니다.
   // https://developer.themoviedb.org/reference/movie-details
   // https://developer.themoviedb.org/reference/movie-credits
-  const [detail, setDetail] = useState(null)
+
+  const [detail, setDetail] = useState(null);
 
   useEffect(() => {
-    const async = async () => {
-      const _detail = await TMDB.get(`/movie/${id}`).then(it => it.json())
-      const _casting = await TMDB.get(`/movie/${id}/credits`).then(it => it.json())
-      console.log({ ..._detail, ..._casting })
-      setDetail({ ..._detail, ..._casting })
-    }
-    async().then()
+    const fetchData = async () => {
+      const _detail = await TMDB.get(`/movie/${id}`).then((res) => res.json());
+      const _casting = await TMDB.get(`/movie/${id}/credits`).then((res) =>
+        res.json()
+      );
+      setDetail({ ..._detail, ..._casting });
+    };
+    fetchData();
   }, [id]);
 
   return (
@@ -90,21 +125,24 @@ const DetailPage = () => {
               ? data.overview
               : "TMDB에서 제공하는 API에 상세 줄거리 정보가 없습니다."}
           </div>
-          {/*<div>*/}
-          {/*  <h3>출연진</h3>*/}
-          {/*  {detail?.cast?.map((actor, index) => (*/}
-          {/*    <div key={index}>*/}
-          {/*      <img*/}
-          {/*        src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}*/}
-          {/*        alt={actor.name}*/}
-          {/*        style={{ width: 100, height: 150, borderRadius: 50 }}*/}
-          {/*      />*/}
-          {/*      <div>{actor.name}</div>*/}
-          {/*    </div>*/}
-          {/*))}*/}
-          {/*</div>*/}
         </Information>
-        {/*// 그리드사용, 사진 border-radius 50 해서 사람들 뿌리기*/}
+      </Container>
+      <Container>
+        <Cast>
+          <h3>출연진</h3>
+          <CastGrid>
+            {detail &&
+              detail.cast.map((actor, index) => (
+                <ActorCard key={index}>
+                  <ActorImage
+                    src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`}
+                    // alt={actor.name}
+                  />
+                  <p>{actor.name}</p>
+                </ActorCard>
+              ))}
+          </CastGrid>
+        </Cast>
       </Container>
     </Background>
   );
